@@ -10,9 +10,14 @@ import java.net.http.HttpResponse;
 import java.util.Scanner;
 
 public class Pokemon {
-    // Variables
-    public String name;
-    // Constructor
+    // Properties
+    private String name;
+    private Long number;
+    // Getter/Setters
+    public String Name() { return name; }
+    public Long Number() { return number; }
+    // Constructors
+    public Pokemon() { name = "UNDEFINED"; }
     public Pokemon(String pokemon) {
         HttpClient client = HttpClient.newHttpClient(); // 1. Create a client
         String json = "";
@@ -27,8 +32,8 @@ public class Pokemon {
         // Parse JSON
         Object file = JSONValue.parse(json);
         JSONObject jsonObjectdecode = (JSONObject)file;
-
-        name =
-                (String)jsonObjectdecode.get("name");
+        String lowerName = (String)jsonObjectdecode.get("name"); // Get name
+        name = lowerName.substring(0,1).toUpperCase() + lowerName.substring(1, lowerName.length()); // Set name
+        number = (Long)jsonObjectdecode.get("order");
     }
 }
