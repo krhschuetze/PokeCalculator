@@ -7,9 +7,10 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Comparator;
 import java.util.Scanner;
 
-public class Pokemon {
+public class Pokemon implements Comparator<Pokemon> {
     // Properties
     private String name;
     private Long number;
@@ -17,7 +18,7 @@ public class Pokemon {
     public String Name() { return name; }
     public Long Number() { return number; }
     // Constructors
-    public Pokemon() { name = "UNDEFINED"; }
+    public Pokemon() { }
     public Pokemon(String pokemon) {
         HttpClient client = HttpClient.newHttpClient(); // 1. Create a client
         String json = "";
@@ -34,6 +35,13 @@ public class Pokemon {
         JSONObject jsonObjectdecode = (JSONObject)file;
         String lowerName = (String)jsonObjectdecode.get("name"); // Get name
         name = lowerName.substring(0,1).toUpperCase() + lowerName.substring(1, lowerName.length()); // Set name
-        number = (Long)jsonObjectdecode.get("order");
+        number = (Long)jsonObjectdecode.get("id");
+    }
+    // Methods
+    @Override
+    public int compare(Pokemon o1, Pokemon o2) {
+        if (o1.number > o2.number) { return -1; } // o1 is less than
+        else if (o1.number.equals(o2.number)) { return 0; } // Equals
+        else { return 1; } // o1 is greater than
     }
 }
