@@ -112,7 +112,7 @@ public class PokemonTeam {
         for (Pokemon slot : teamMembers) { // Iterate through full team
             teamTypes.addAll(slot.TypeList()); // Add all types from each Pokemon
         }
-        System.out.println(teamTypes.toString());
+        System.out.println(TitleCase.toTitleCase(teamTypes));
         return;
     }
 }

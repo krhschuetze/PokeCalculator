@@ -35,8 +35,7 @@ public class Pokemon implements Comparator<Pokemon> {
         // Parse JSON
         Object file = JSONValue.parse(json);
         JSONObject jsonObjectDecode = (JSONObject)file;
-        String lowerName = (String)jsonObjectDecode.get("name"); // Get name
-        name = lowerName.substring(0,1).toUpperCase() + lowerName.substring(1); // Set name
+        name = TitleCase.toTitleCase((String)jsonObjectDecode.get("name"));
         number = (Long)jsonObjectDecode.get("id"); // Set ID number
 
         // Get types
