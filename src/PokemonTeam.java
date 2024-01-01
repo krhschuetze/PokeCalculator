@@ -20,7 +20,7 @@ public class PokemonTeam {
                     "\n\t1. Display current Pokemon" +
                     "\n\t2. Add new Pokemon" +
                     "\n\t3. Remove existing Pokemon" +
-                    "\n\t4. Display type chart" +
+                    "\n\t4. Display advantages/disadvantages" +
                     "\n\t5. Exit"
             );
             choice = scanner.nextInt();
@@ -55,7 +55,7 @@ public class PokemonTeam {
         if (!teamMembers.isEmpty()) {
             System.out.println("Your team currently consists of: ");
             for (Pokemon slot : teamMembers) {
-                System.out.println("\t#" + slot.Number() + " - " + slot.Name());
+                System.out.println("\t#" + slot.Number() + " - " + slot.Name() + " " + slot.TypeList().toString());
             }
         }
         else {
@@ -105,5 +105,8 @@ public class PokemonTeam {
         }
         while (removePoke);
         displayPokemon();
+    }
+    public void teamTypes() {
+        return;
     }
 }

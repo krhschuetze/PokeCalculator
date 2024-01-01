@@ -1,22 +1,24 @@
-import netscape.javascript.JSObject;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Scanner;
+import java.util.List;
 
 public class Pokemon implements Comparator<Pokemon> {
     // Properties
     private String name;
     private Long number;
+    private List<String> typeList;
     // Getter/Setters
     public String Name() { return name; }
     public Long Number() { return number; }
+    public List<String> TypeList() { return typeList; }
     // Constructors
     public Pokemon() { }
     public Pokemon(String pokemon) {
@@ -32,10 +34,19 @@ public class Pokemon implements Comparator<Pokemon> {
         catch (Exception e) { System.out.println(e.getMessage()); };
         // Parse JSON
         Object file = JSONValue.parse(json);
-        JSONObject jsonObjectdecode = (JSONObject)file;
-        String lowerName = (String)jsonObjectdecode.get("name"); // Get name
-        name = lowerName.substring(0,1).toUpperCase() + lowerName.substring(1, lowerName.length()); // Set name
-        number = (Long)jsonObjectdecode.get("id");
+        JSONObject jsonObjectDecode = (JSONObject)file;
+        String lowerName = (String)jsonObjectDecode.get("name"); // Get name
+        name = lowerName.substring(0,1).toUpperCase() + lowerName.substring(1); // Set name
+        number = (Long)jsonObjectDecode.get("id"); // Set ID number
+
+        // Get types
+        typeList = new ArrayList<String>(){};
+        JSONArray typesArray = (JSONArray) jsonObjectDecode.get("types"); // Get JSONarray of types
+        for (Object slot : typesArray) {
+            JSONObject typeObject = (JSONObject) ((JSONObject) slot).get("type"); // Get type JSONobject
+            String typeString = (String) typeObject.get("name"); // Get name string from type
+            typeList.add(typeString); // Add type to list
+        }
     }
     // Methods
     @Override
