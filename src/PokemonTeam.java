@@ -38,6 +38,7 @@ public class PokemonTeam {
                     break;
                 }
                 case 4: {
+                    teamTypes();
                     break;
                 }
                 case 5: {
@@ -107,6 +108,11 @@ public class PokemonTeam {
         displayPokemon();
     }
     public void teamTypes() {
+        List<String> teamTypes = new ArrayList<String>(){};
+        for (Pokemon slot : teamMembers) { // Iterate through full team
+            teamTypes.addAll(slot.TypeList()); // Add all types from each Pokemon
+        }
+        System.out.println(teamTypes.toString());
         return;
     }
 }
