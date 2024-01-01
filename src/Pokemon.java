@@ -21,30 +21,20 @@ public class Pokemon implements Comparator<Pokemon> {
     public List<String> TypeList() { return typeList; }
     // Constructors
     public Pokemon() { }
-    public Pokemon(String pokemon) {
-        HttpClient client = HttpClient.newHttpClient(); // 1. Create a client
-        String json = "";
-        HttpRequest request = HttpRequest.newBuilder() // 2. Create request
-                .uri(URI.create("https://pokeapi.co/api/v2/pokemon/" + pokemon))
-                .build();
-        try {
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString()); // 3. Send request, receive response
-            json = response.body(); // Return Pokemon JSON as string
-        }
-        catch (Exception e) { System.out.println(e.getMessage()); };
-        // Parse JSON
-        Object file = JSONValue.parse(json);
-        JSONObject jsonObjectDecode = (JSONObject)file;
-        name = TitleCase.toTitleCase((String)jsonObjectDecode.get("name"));
-        number = (Long)jsonObjectDecode.get("id"); // Set ID number
-
-        // Get types
-        typeList = new ArrayList<String>(){};
-        JSONArray typesArray = (JSONArray) jsonObjectDecode.get("types"); // Get JSONarray of types
-        for (Object slot : typesArray) {
-            JSONObject typeObject = (JSONObject) ((JSONObject) slot).get("type"); // Get type JSONobject
-            String typeString = (String) typeObject.get("name"); // Get name string from type
-            typeList.add(typeString); // Add type to list
+    public Pokemon(String pokemon, boolean calcTypes) {
+        JSONObject pokeJsonObjectDecode = getFromPokeAPI("pokemon/" + pokemon);
+        name = TitleCase.toTitleCase((String)pokeJsonObjectDecode.get("name"));
+        number = (Long)pokeJsonObjectDecode.get("id"); // Set ID number
+        if (calcTypes) {
+            // Get Pokemon types
+            typeList = new ArrayList<String>(){};
+            JSONArray typesArray = (JSONArray) pokeJsonObjectDecode.get("types"); // Get JSONarray of types
+            for (Object slot : typesArray) {
+                JSONObject typeObject = (JSONObject) ((JSONObject) slot).get("type"); // Get type JSONobject
+                String typeString = (String) typeObject.get("name"); // Get name string from type
+                typeList.add(typeString); // Add type to list
+            }
+            // Get strengths/weaknesses
         }
     }
     // Methods
@@ -53,5 +43,22 @@ public class Pokemon implements Comparator<Pokemon> {
         if (o1.number > o2.number) { return -1; } // o1 is less than
         else if (o1.number.equals(o2.number)) { return 0; } // Equals
         else { return 1; } // o1 is greater than
+    }
+    public JSONObject getFromPokeAPI(String requestedData) {
+        // requestedData should look like either pokemon/{name OR number} or type/{type}
+        HttpClient client = HttpClient.newHttpClient(); // 1. Create a client
+        String json = "";
+        HttpRequest request = HttpRequest.newBuilder() // 2. Create request
+                .uri(URI.create("https://pokeapi.co/api/v2/" + requestedData))
+                .build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString()); // 3. Send request, receive response
+            json = response.body(); // Return JSON as string
+        }
+        catch (Exception e) { System.out.println(e.getMessage()); };
+        // Parse JSON
+        Object file = JSONValue.parse(json);
+        JSONObject jsonObjectDecode = (JSONObject)file;
+        return jsonObjectDecode;
     }
 }

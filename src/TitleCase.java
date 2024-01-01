@@ -8,7 +8,7 @@ public class TitleCase {
         String titleStringList = "";
         for (String item : lowercaseList) {
             String temp = toTitleCase(item);
-            titleStringList += temp;
+            titleStringList += (temp + " ");
         }
         return titleStringList;
     }

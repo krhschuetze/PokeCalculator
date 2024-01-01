@@ -38,7 +38,7 @@ public class PokemonTeam {
                     break;
                 }
                 case 4: {
-                    teamTypes();
+                    printTeamTypes();
                     break;
                 }
                 case 5: {
@@ -73,7 +73,7 @@ public class PokemonTeam {
             Scanner scanner = new Scanner(System.in);  // Create a Scanner object to read input
             System.out.print("Which pokemon would you like to add to your team? (Number or name) ");
             String input = scanner.nextLine();
-            teamMembers.add(new Pokemon(input));
+            teamMembers.add(new Pokemon(input, true));
             if (teamMembers.size() < 6) {
                 System.out.print("Add another Pokemon? (Y/N) ");
                 if (scanner.nextLine().equalsIgnoreCase("n")) {
@@ -95,7 +95,7 @@ public class PokemonTeam {
             Scanner scanner = new Scanner(System.in);  // Create a Scanner object to read input
             System.out.print("Which pokemon would you like to remove from your team? (Number or name) ");
             String input = scanner.nextLine();
-            teamMembers.removeIf(slot -> slot.compare(slot, new Pokemon(input)) == 0); // Remove if Pokemon are same
+            teamMembers.removeIf(slot -> slot.compare(slot, new Pokemon(input, false)) == 0); // Remove if Pokemon are same
             if (!teamMembers.isEmpty()) {
                 System.out.print("Remove another Pokemon? (Y/N) ");
                 if (scanner.nextLine().equalsIgnoreCase("n")) {
@@ -107,7 +107,7 @@ public class PokemonTeam {
         while (removePoke);
         displayPokemon();
     }
-    public void teamTypes() {
+    public void printTeamTypes() {
         List<String> teamTypes = new ArrayList<String>(){};
         for (Pokemon slot : teamMembers) { // Iterate through full team
             teamTypes.addAll(slot.TypeList()); // Add all types from each Pokemon
