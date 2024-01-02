@@ -40,4 +40,19 @@ public class Type {
         }
         return typesFromArray;
     }
+    public static List<Type> getTypes() {
+        System.out.print("Loading type     ");
+        // Get all types
+        List<Type> typesList = new ArrayList<Type>(){};
+        for (int i = 0; i < 18; i++) {
+            int typeToGet = i + 1;
+            typesList.add(new Type(String.valueOf(i + 1)));
+            if (i < 10) {
+                System.out.print("\b\b\b\b" + typeToGet + "/18");
+            }
+            else { System.out.print("\b\b\b\b\b" + typeToGet + "/18"); }
+        }
+        System.out.println();
+        return typesList;
+    }
 }

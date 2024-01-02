@@ -5,10 +5,12 @@ import java.util.Scanner;
 public class PokemonTeam {
     // Properties
     private List<Pokemon> teamMembers; // Create ArrayList to store Pokemon
+    static private List<Type> typeReference;
     // Getters/Setters
     public List<Pokemon> TeamMembers() { return teamMembers; }
     // Constructors
     public PokemonTeam() {
+        typeReference = Type.getTypes();
         teamMembers = new ArrayList<Pokemon>(){};;
     }
     // Methods
