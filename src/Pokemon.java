@@ -33,8 +33,9 @@ public class Pokemon implements Comparator<Pokemon> {
                 JSONObject typeObject = (JSONObject) ((JSONObject) slot).get("type"); // Get type JSONobject
                 String typeString = (String) typeObject.get("name"); // Get name string from type
                 typeList.add(typeString); // Add type to list
+                // Get double damage to
+                // Get double damage from
             }
-            // Get strengths/weaknesses
         }
     }
     // Methods
@@ -44,7 +45,8 @@ public class Pokemon implements Comparator<Pokemon> {
         else if (o1.number.equals(o2.number)) { return 0; } // Equals
         else { return 1; } // o1 is greater than
     }
-    public JSONObject getFromPokeAPI(String requestedData) {
+    // Statics
+    public static JSONObject getFromPokeAPI(String requestedData) {
         // requestedData should look like either pokemon/{name OR number} or type/{type}
         HttpClient client = HttpClient.newHttpClient(); // 1. Create a client
         String json = "";
